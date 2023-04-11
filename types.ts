@@ -7,7 +7,7 @@ type Launch = {
     id: number
     launchCode: string
     date: string
-    sucess: boolean
+    success: boolean
     rocketId: number
 }
 
