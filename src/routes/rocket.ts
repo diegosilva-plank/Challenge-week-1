@@ -1,11 +1,14 @@
 import { Router } from 'express'
+import * as rocketController from '../controllers/rocketController'
 
 const router = Router()
 
 router.route('/rocket')
-    .get()
-    .post()
-    .put()
-    .delete()
+    .get(rocketController.getRockets)
+    .post(rocketController.createRocket)
+
+router.route('/rocket/:id')
+    .put(rocketController.updateRocket)
+    .delete(rocketController.deleteRocket)
 
 module.exports = router

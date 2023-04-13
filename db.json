@@ -1,32 +1,124 @@
 {
-    "launch": [
-        {"id": 1, "launchCode": "BBC001", "date": "02/12/2023", "success": true, "rocketId": 1},
-        {"id": 2, "launchCode": "BBC002", "date": "06/04/2023", "success": true, "rocketId": 2},
-        {"id": 3, "launchCode": "BBC003", "date": "15/06/2015", "success": false, "rocketId": 1},
-        {"id": 4, "launchCode": "BBC004", "date": "20/08/2019", "success": true, "rocketId": 1}
-    ],
-    "crew": [
-        {"name": "Apollo V", "id": 1, "launchId": 1},
-        {"name": "Artemis VII", "id": 2, "launchId": 4},
-        {"name": "Artemis II", "id": 3, "launchId": 3},
-        {"name": "Artemis II", "id": 4, "launchId": 3}
-    ],
-    "crewman": [
-        {"name": "Anastasia", "id": 1, "patent": "Astrophysist"},
-        {"name": "Kris", "id": 2, "patent": "Biologist"},
-        {"name": "Matthew", "id": 3, "patent": "Chemist"},
-        {"name": "Ashton", "id": 4, "patent": "Captain"}
-    ],
-    "rocket": [
-        {"name": "Andromeda", "id": 1},
-        {"name": "Antares", "id": 2}
-    ],
-    "crewman_crew": [
-        {"crewmanId": 1, "crewId": 1},
-        {"crewmanId": 1, "crewId": 3},
-        {"crewmanId": 2, "crewId": 3},
-        {"crewmanId": 3, "crewId": 1},
-        {"crewmanId": 3, "crewId": 2},
-        {"crewmanId": 4, "crewId": 4}
-    ]
+  "launch": [
+    {
+      "id": 1,
+      "launchCode": "BBC001",
+      "date": "02/12/2023",
+      "success": true,
+      "rocketId": 1
+    },
+    {
+      "id": 2,
+      "launchCode": "BBC002",
+      "date": "06/04/2023",
+      "success": true,
+      "rocketId": 2
+    },
+    {
+      "id": 3,
+      "launchCode": "BBC003",
+      "date": "15/06/2015",
+      "success": false,
+      "rocketId": 1
+    },
+    {
+      "id": 4,
+      "launchCode": "BBC004",
+      "date": "20/08/2019",
+      "success": true,
+      "rocketId": 1
+    }
+  ],
+  "crew": [
+    {
+      "name": "Apollo V",
+      "id": 1,
+      "launchId": 1
+    },
+    {
+      "name": "Artemis VII",
+      "id": 2,
+      "launchId": 4
+    },
+    {
+      "name": "Artemis II",
+      "id": 3,
+      "launchId": 3
+    },
+    {
+      "name": "Artemis II",
+      "id": 4,
+      "launchId": 3
+    }
+  ],
+  "crewman": [
+    {
+      "name": "Anastasia",
+      "id": 1,
+      "patent": "Astrophysist"
+    },
+    {
+      "name": "Kris",
+      "id": 2,
+      "patent": "Biologist"
+    },
+    {
+      "name": "Matthew",
+      "id": 3,
+      "patent": "Chemist"
+    },
+    {
+      "name": "Ashton",
+      "id": 4,
+      "patent": "Captain"
+    }
+  ],
+  "rocket": [
+    {
+      "name": "Andromeda",
+      "id": "1"
+    },
+    {
+      "name": "Antares",
+      "id": "2"
+    },
+    {
+      "name": "Antares",
+      "id": "3"
+    },
+    {
+      "id": "4",
+      "name": "Diego"
+    },
+    {
+      "id": "5",
+      "name": "Arthur"
+    }
+  ],
+  "crewman_crew": [
+    {
+      "crewmanId": 1,
+      "crewId": 1
+    },
+    {
+      "crewmanId": 1,
+      "crewId": 3
+    },
+    {
+      "crewmanId": 2,
+      "crewId": 3
+    },
+    {
+      "crewmanId": 3,
+      "crewId": 1
+    },
+    {
+      "crewmanId": 3,
+      "crewId": 2
+    },
+    {
+      "crewmanId": 4,
+      "crewId": 4
+    }
+  ]
 }
