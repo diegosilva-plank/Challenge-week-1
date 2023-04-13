@@ -22,11 +22,11 @@
       "rocketId": 1
     },
     {
-      "id": 4,
-      "launchCode": "BBC004",
-      "date": "20/08/2019",
-      "success": true,
-      "rocketId": 1
+      "id": "5",
+      "launchCode": "BBC005",
+      "date": "13/04/2023",
+      "sucess": "true",
+      "rocketId": 2
     }
   ],
   "crew": [
@@ -87,12 +87,8 @@
       "id": "3"
     },
     {
-      "id": "4",
-      "name": "Diego"
-    },
-    {
-      "id": "5",
-      "name": "Arthur"
+      "id": "10",
+      "name": "Apolo"
     }
   ],
   "crewman_crew": [
