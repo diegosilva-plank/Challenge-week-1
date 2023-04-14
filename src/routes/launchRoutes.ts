@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { CrudController } from "../controllers/genericController";
+import { launchController } from "../controllers/launchController";
 import {
   createLaunchValidator,
   updateLaunchValidator,
 } from "../validators/launchValidator";
-import { LaunchRepository } from "../repositories";
 
 const launchRoutes = Router();
-const launchController = new CrudController<Launch>(LaunchRepository);
 
 launchRoutes
   .route("/launch")

@@ -19,10 +19,12 @@ export class CrudRepository<T> implements ICrudRepository<T> {
     });
     return response.data;
   }
+
   async create(data: Omit<T, "id">): Promise<T> {
     const response = await jsonServer.post<T>(`/${this.entityName}`, data);
     return response.data;
   }
+
   async update(id: string, entity: Partial<Omit<T, "id">>): Promise<T> {
     const responseGet = await jsonServer.get<T[]>(`/${this.entityName}`, {
       params: { id },
@@ -36,6 +38,7 @@ export class CrudRepository<T> implements ICrudRepository<T> {
     );
     return response.data;
   }
+
   async delete(id: string): Promise<boolean> {
     await jsonServer.delete(`/${this.entityName}/${id}`);
     return true;
