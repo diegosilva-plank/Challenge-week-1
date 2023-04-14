@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import { CrudRepository } from "../repositories/genericRepository";
+import { CrudService } from "../services/genericService";
 
 export class CrudController<T> {
-    private repository: CrudRepository<T>
+    private service: CrudService<T>
 
-    constructor(repository: CrudRepository<T>) {
-        this.repository = repository
+    constructor(repository: CrudService<T>) {
+        this.service = repository
     }
 
     get = async (req: Request, res: Response) => {
         try {
-            const entities = await this.repository.get()
+            const entities = await this.service.get()
             res.json(entities)
         } catch (err) {
             res.status(500).json({ message: 'Error while getting entities from database' })
@@ -19,7 +19,7 @@ export class CrudController<T> {
 
     create = async (req: Request, res: Response) => {
         try {
-            const entity = await this.repository.create(req.body)
+            const entity = await this.service.create(req.body)
             res.json(entity)
         } catch (err) {
             res.status(500).json({ message: 'Error while storing entity in database' })
@@ -29,7 +29,7 @@ export class CrudController<T> {
     update = async (req: Request, res: Response) => {
         try {
             const { id } = req.params
-            const entity = await this.repository.update(id, req.body)
+            const entity = await this.service.update(id, req.body)
             res.json(entity)
         } catch (err) {
             res.status(500).json({ message: 'Error while updating entity in database' })
@@ -39,7 +39,7 @@ export class CrudController<T> {
     delete = async (req: Request, res: Response) => {
         try {
             const { id } = req.params
-            const success = await this.repository.delete(id)
+            const success = await this.service.delete(id)
             res.json(success)
         } catch (err: any) {
             if (err?.response?.status === 404) {

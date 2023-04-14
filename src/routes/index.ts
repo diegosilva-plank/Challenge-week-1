@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { CrudController } from "../controllers/genericController";
 import { launchRoutes } from "./launchRoutes";
-import { crewManRepository, rocketRepository } from "../repositories";
-import { CrudRepository } from "../repositories/genericRepository";
+import * as services from "../services";
+import { CrudService } from "../services/genericService";
 
-const createRoute = <T>(path: string, repository: CrudRepository<T>) => {
+const createRoute = <T>(path: string, service: CrudService<T>) => {
   const crudRouter = Router();
 
-  const entityController = new CrudController(repository);
+  const entityController = new CrudController(service);
 
   crudRouter
     .route(`/${path}`)
@@ -24,10 +24,9 @@ const createRoute = <T>(path: string, repository: CrudRepository<T>) => {
 
 const router = Router();
 
-router.use(createRoute("rocket", rocketRepository));
-router.use(createRoute("crewman", crewManRepository));
-router.use(createRoute("crew", crewManRepository));
+router.use(createRoute("rocket", services.rocketService));
+router.use(createRoute("crewman", services.crewManService));
+router.use(createRoute("crew", services.crewService));
 router.use(launchRoutes)
-
 
 export { router };
