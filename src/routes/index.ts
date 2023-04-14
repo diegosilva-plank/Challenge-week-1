@@ -1,24 +1,28 @@
-import { Router } from 'express'
-import * as genericController from '../controllers/genericController'
-
-const router = Router()
+import { Router } from "express";
+import { CrudController } from "../controllers/genericController";
 
 const createRoute = (entityName: string) => {
-    const entityController = new genericController.Controller(entityName)
+  const crudRouter = Router();
 
-    router.route(`/${entityName}`)
-        .get(entityController.get)
-        .post(entityController.create)
+  const entityController = new CrudController(entityName);
 
-    router.route(`/${entityName}/:id`)
-        .put(entityController.update)
-        .delete(entityController.delete)
-} 
+  crudRouter
+    .route(`/${entityName}`)
+    .get(entityController.get)
+    .post(entityController.create);
 
-for (const entityName of ['rocket', 'launch', 'crewman', 'crew']) {
-    createRoute(entityName)
+  crudRouter
+    .route(`/${entityName}/:id`)
+    .put(entityController.update)
+    .delete(entityController.delete);
+
+  return crudRouter;
+};
+
+const router = Router();
+
+for (const entityName of ["rocket", "launch", "crewman", "crew"]) {
+  router.use(createRoute(entityName));
 }
 
-router.use(router)
-
-export { router }
+export { router };

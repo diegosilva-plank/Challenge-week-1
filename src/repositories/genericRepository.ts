@@ -1,6 +1,12 @@
 import { jsonServer } from "../services/api";
+interface ICrudRepository<T> {
+  get(filter?: Partial<T>): Promise<T[]>;
+  create(data: Omit<T, "id">): Promise<T>;
+  update(id: string, data: Partial<Omit<T, "id">>): Promise<T>;
+  delete(id: string): Promise<boolean>;
+}
 
-export class Repository<T> {
+export class CrudRepository<T> implements ICrudRepository<T> {
   entityName: string;
 
   constructor(e: string) {
@@ -18,17 +24,18 @@ export class Repository<T> {
       throw err;
     }
   }
-  async create(entity: T): Promise<T> {
+  async create(data: Omit<T, "id">): Promise<T> {
     try {
-      const response = await jsonServer.post<T>(`/${this.entityName}`, entity);
+      const response = await jsonServer.post<T>(`/${this.entityName}`, data);
       return response.data;
     } catch (err) {
       console.error(err);
       throw err;
     }
   }
-  async update<T>(id: string, entity: Partial<Omit<T, "id">>): Promise<T> {
+  async update(id: string, entity: Partial<Omit<T, "id">>): Promise<T> {
     try {
+      console.log("alo")
       const responseGet = await jsonServer.get<T[]>(`/${this.entityName}`, {
         params: { id },
       });
@@ -55,58 +62,3 @@ export class Repository<T> {
     }
   }
 }
-
-// Promise<T[]>
-
-// interface IRepository<T> {
-//     get<T>(filter?: Partial<T>): Promise<T[]>
-//     create<T>(data : T): Promise<T>
-//     update<T>(id: string, data : Partial<Omit<T, 'id'>>): Promise<T>
-//     delete<T>(id: string): Promise<boolean>
-// }
-
-// type Repository<T> = {
-//     id: number
-//     name: string
-// }
-
-// export const Repository: IRepository<T> = {
-//     get<T>: async (filter) => {
-//         try {
-//             const response = await jsonServer.get<Rocket[]>('/rocket', { params: filter })
-//             return response.data
-//         } catch (err) {
-//             console.error(err)
-//             throw err
-//         }
-//     },
-// createRocket: async (rocket) => {
-//     try {
-//         const response = await jsonServer.post<Rocket>('/rocket', rocket)
-//         return response.data
-//     } catch (err) {
-//         console.error(err)
-//         throw err
-//     }
-// },
-// updateRocket: async (id, rocket) => {
-//     try {
-//         const [ rocketComplete ] = await RocketRepository.getRockets({ id })
-//         const updatedRocket: Rocket = {...rocketComplete, ...rocket}
-//         const response = await jsonServer.put<Rocket>(`/rocket/${id}`, updatedRocket)
-//         return response.data
-//     } catch (err) {
-//         console.error(err)
-//         throw err
-//     }
-// },
-//     deleteRocket: async (id) => {
-//         try {
-//             await jsonServer.delete(`/rocket/${id}`)
-//             return true
-//         } catch (err) {
-//             console.error(err)
-//             throw err
-//         }
-//     }
-// }
