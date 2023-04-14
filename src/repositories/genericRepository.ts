@@ -1,5 +1,5 @@
 import { jsonServer } from "../model/api";
-interface ICrudRepository<T> {
+export interface ICrudRepository<T> {
   get(filter?: Partial<T>): Promise<T[]>;
   create(data: Omit<T, "id">): Promise<T>;
   update(id: string, data: Partial<Omit<T, "id">>): Promise<T>;
@@ -43,4 +43,10 @@ export class CrudRepository<T> implements ICrudRepository<T> {
     await jsonServer.delete(`/${this.entityName}/${id}`);
     return true;
   }
+}
+
+class Teste extends CrudRepository<any> {
+  constructor() {
+    super("teste");
+  } 
 }

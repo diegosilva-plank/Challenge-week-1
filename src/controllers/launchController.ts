@@ -1,11 +1,7 @@
-import { RequestHandler } from "express";
 import { launchRepository } from "../repositories";
 import { launchService } from "../services/launchServices";
+import { Controller } from "./types";
 
-
-type Controller = {
-  [key: string]: RequestHandler;
-}
 
 export const launchController = {
   async get(req, res) {
@@ -64,4 +60,4 @@ export const launchController = {
       }
     }
   },
-} satisfies Controller;
+} satisfies Controller
