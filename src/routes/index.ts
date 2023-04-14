@@ -1,18 +1,21 @@
 import { Router } from "express";
 import { CrudController } from "../controllers/genericController";
+import { launchRoutes } from "./launchRoutes";
+import { crewManRepository, rocketRepository } from "../repositories";
+import { CrudRepository } from "../repositories/genericRepository";
 
-const createRoute = (entityName: string) => {
+const createRoute = <T>(path: string, repository: CrudRepository<T>) => {
   const crudRouter = Router();
 
-  const entityController = new CrudController(entityName);
+  const entityController = new CrudController(repository);
 
   crudRouter
-    .route(`/${entityName}`)
+    .route(`/${path}`)
     .get(entityController.get)
     .post(entityController.create);
 
   crudRouter
-    .route(`/${entityName}/:id`)
+    .route(`/${path}/:id`)
     .put(entityController.update)
     .delete(entityController.delete);
 
@@ -21,8 +24,10 @@ const createRoute = (entityName: string) => {
 
 const router = Router();
 
-for (const entityName of ["rocket", "launch", "crewman", "crew"]) {
-  router.use(createRoute(entityName));
-}
+router.use(createRoute("rocket", rocketRepository));
+router.use(createRoute("crewman", crewManRepository));
+router.use(createRoute("crew", crewManRepository));
+router.use(launchRoutes)
+
 
 export { router };

@@ -4,8 +4,8 @@ import { CrudRepository } from "../repositories/genericRepository";
 export class CrudController<T> {
     private repository: CrudRepository<T>
 
-    constructor(entityName: string) {
-        this.repository = new CrudRepository<T>(entityName)
+    constructor(repository: CrudRepository<T>) {
+        this.repository = repository
     }
 
     get = async (req: Request, res: Response) => {
