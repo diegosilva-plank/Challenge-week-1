@@ -44,9 +44,3 @@ export class CrudRepository<T> implements ICrudRepository<T> {
     return true;
   }
 }
-
-class Teste extends CrudRepository<any> {
-  constructor() {
-    super("teste");
-  } 
-}

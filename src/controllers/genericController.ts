@@ -21,7 +21,10 @@ export class CrudController<T> {
         try {
             const entity = await this.service.create(req.body)
             res.json(entity)
-        } catch (err) {
+        } catch (err: any) {
+            if (err?.message === "Rocket not found") {
+                res.status(400).json({ message: err.message })
+            }
             res.status(500).json({ message: 'Error while storing entity in database' })
         }
     }

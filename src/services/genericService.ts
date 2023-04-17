@@ -1,12 +1,4 @@
-import { launchRepository, rocketRepository } from "../repositories";
-import { CrudRepository, ICrudRepository } from "../repositories/genericRepository";
-
-// export interface ICrudService<T> {
-//   get(filter?: Partial<T>): Promise<T[]>;
-//   create(data: Omit<T, "id">): Promise<T>;
-//   update(id: string, data: Partial<Omit<T, "id">>): Promise<T>;
-//   delete(id: string): Promise<boolean>;
-// }
+import { CrudRepository } from "../repositories/genericRepository";
 
 export class CrudService<T> {
 
@@ -36,15 +28,4 @@ export class CrudService<T> {
     const entity = await this.repository.update(id, payload);
     return entity;
   }
-}
-
-const launchService = new CrudService(launchRepository)
-launchService.create = async (payload) => {
-  const { rocketId } = payload;
-  const foundRocket = await rocketRepository.get({ id: rocketId });
-
-  if (!foundRocket.length) throw new Error("Rocket not found");
-
-  const launch = await launchRepository.create(payload);
-  return launch;
 }
