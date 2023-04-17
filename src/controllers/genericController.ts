@@ -34,8 +34,12 @@ export class CrudController<T> {
             const { id } = req.params
             const entity = await this.service.update(id, req.body)
             res.json(entity)
-        } catch (err) {
-            res.status(500).json({ message: 'Error while updating entity in database' })
+        } catch (err: any) {
+            if (err?.response?.status === 404) {
+                res.status(404).json({ message: 'No object with passed id' })
+            } else {
+                res.status(500).json({ message: 'Error while updating entity in database' })
+            }
         }
     }
 
