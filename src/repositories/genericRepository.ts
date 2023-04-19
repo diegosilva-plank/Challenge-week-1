@@ -1,4 +1,4 @@
-import { jsonServer } from "../model/api";
+import { jsonServer } from "../models/api";
 export interface ICrudRepository<T> {
   get(filter?: Partial<T>): Promise<T[]>;
   create(data: Omit<T, "id">): Promise<T>;
