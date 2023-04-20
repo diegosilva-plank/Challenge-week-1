@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinTable,
+  OneToMany,
+  ManyToMany,
+} from "typeorm";
 import { Launch } from "./launch";
+import { CrewMan } from "./crewMan";
 
 @Entity()
 export class Crew {
@@ -9,10 +17,10 @@ export class Crew {
   @Column()
   name: string;
 
-  @Column()
-  launchId: number;
-
   @OneToMany(() => Launch, (launch) => launch.rocket)
   launches: Launch[];
-}
 
+  @ManyToMany(() => CrewMan, (crewMan) => crewMan.crews)
+  @JoinTable()
+  crewMans: CrewMan[];
+}

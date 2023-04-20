@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Rocket } from "./rocket";
+import { Crew } from "./crew";
 
 @Entity()
 export class Launch {
@@ -12,12 +13,9 @@ export class Launch {
   @Column()
   date: string;
 
-  @Column()
-  success: boolean;
-
-  @Column()
-  rocketId: number;
-
   @ManyToOne(() => Rocket, (rocket) => rocket.launches)
   rocket: Rocket;
+
+  @ManyToOne(() => Crew, (crew) => crew.launches)
+  crew: Crew;
 }

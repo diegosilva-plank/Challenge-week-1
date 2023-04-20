@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 
 @Entity()
 export class CrewMan {
@@ -10,4 +10,7 @@ export class CrewMan {
 
   @Column()
   patent: string;
+
+  @ManyToMany(() => CrewMan, (crewMan) => crewMan.crews)
+  crews: CrewMan[];
 }
