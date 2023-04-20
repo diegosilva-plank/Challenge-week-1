@@ -25,4 +25,11 @@ export class LaunchService extends CrudService<Launch> {
     const launch = await launchRepository.update(id, payload);
     return launch;
   }
+
+  async get(): Promise<Launch[]> {
+    const launches = await launchRepository.get({
+      relations: ["rocket"],
+    } as any);
+    return launches;
+  }
 }

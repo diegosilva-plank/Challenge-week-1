@@ -3,7 +3,7 @@ import { Repository, EntityTarget, DeepPartial } from "typeorm";
 
 export interface ICrudRepository<T> {
   get(filter?: Partial<T>): Promise<T[]>;
-  create<Entity extends DeepPartial<T>>(data: Entity): Promise<T>;
+  create(data: Omit<T, 'id'>): Promise<T>;
   update(id: string, data: Partial<Omit<T, "id">>): Promise<T>;
   delete(id: string): Promise<boolean>;
 }
@@ -19,8 +19,9 @@ export class CrudRepository<T> implements ICrudRepository<T> {
     return this.repository.find(filter);
   }
 
-  create<Entity extends DeepPartial<T>>(data: Entity): Promise<T> {
-    return this.repository.save(data);
+  async create(data: Omit<T, 'id'>): Promise<T> {
+    const created = this.repository.create(data as T);
+    return this.repository.save(created);
   }
 
   async update(id: string, entity: Partial<Omit<T, "id">>): Promise<T> {
