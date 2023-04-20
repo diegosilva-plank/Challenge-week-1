@@ -1,8 +1,10 @@
+import { Crew } from "../entities/Crew";
+import { Crewman } from "../entities/Crewman";
 import { CrudRepository } from "../repositories/genericRepository";
 
 export class CrudService<T> {
 
-  private repository
+  protected repository
 
   constructor(repository: CrudRepository<T>) {
     this.repository = repository

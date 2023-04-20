@@ -1,19 +1,22 @@
 import { Joi, Segments, celebrate } from "celebrate";
+import { Launch } from "../entities/Launch";
 
 export const createLaunchValidator = celebrate({
   [Segments.BODY]: Joi.object<Launch>().keys({
-    launchCode: Joi.string().required(),
+    launch_code: Joi.string().required(),
     date: Joi.string().required(),
     success: Joi.boolean().required(),
-    rocketId: Joi.number().required(),
+    rocket: Joi.string().required(),
+    crew: Joi.string()
   }),
 });
 
 export const updateLaunchValidator = celebrate({
   [Segments.BODY]: Joi.object<Launch>().keys({
-    launchCode: Joi.string(),
+    launch_code: Joi.string(),
     date: Joi.string(),
     success: Joi.boolean(),
-    rocketId: Joi.number(),
+    rocket: Joi.string(),
+    crew: Joi.string()
   }),
 });

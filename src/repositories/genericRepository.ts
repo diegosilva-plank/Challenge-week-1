@@ -1,46 +1,38 @@
-import { jsonServer } from "../model/api";
-export interface ICrudRepository<T> {
-  get(filter?: Partial<T>): Promise<T[]>;
-  create(data: Omit<T, "id">): Promise<T>;
-  update(id: string, data: Partial<Omit<T, "id">>): Promise<T>;
-  delete(id: string): Promise<boolean>;
-}
+import { EntityTarget, Repository } from "typeorm";
+import { connectionSource } from "../../ormconfig";
 
-export class CrudRepository<T> implements ICrudRepository<T> {
-  entityName: string;
+export class CrudRepository<T> {
 
-  constructor(e: string) {
-    this.entityName = e;
+  repo: Repository<T>
+
+  constructor(model: EntityTarget<T>) {
+    this.repo = connectionSource.getRepository(model)
   }
 
   async get(filter?: Partial<T>): Promise<T[]> {
-    const response = await jsonServer.get<T[]>(`/${this.entityName}`, {
-      params: filter,
-    });
-    return response.data;
+    return await this.repo.find(filter)
   }
 
   async create(data: Omit<T, "id">): Promise<T> {
-    const response = await jsonServer.post<T>(`/${this.entityName}`, data);
-    return response.data;
+    const created = this.repo.create(data as T)
+    return await this.repo.save(created)
   }
 
   async update(id: string, entity: Partial<Omit<T, "id">>): Promise<T> {
-    const responseGet = await jsonServer.get<T[]>(`/${this.entityName}`, {
-      params: { id },
-    });
-    const [completeEntity] = responseGet.data;
-    const updated: T = { ...completeEntity, ...entity };
+    const found = await this.repo.findOneBy({ id } as any)
+    
+    if (!found) {
+      throw new Error("Instance not found")
+    }
 
-    const response = await jsonServer.put<T>(
-      `/${this.entityName}/${id}`,
-      updated
-    );
-    return response.data;
+    const updated = { ...found, ...entity }
+    return await this.repo.save(updated)
   }
 
   async delete(id: string): Promise<boolean> {
-    await jsonServer.delete(`/${this.entityName}/${id}`);
-    return true;
+    const found = await this.repo.findOneBy({ id } as any)
+    if (!found) return false
+    await this.repo.delete(id);
+    return true
   }
 }
