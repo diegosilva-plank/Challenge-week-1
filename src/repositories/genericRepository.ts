@@ -1,46 +1,44 @@
-import { jsonServer } from "../models/api";
+import { AppDataSource } from "../database";
+import { Repository, EntityTarget, DeepPartial } from "typeorm";
+
 export interface ICrudRepository<T> {
   get(filter?: Partial<T>): Promise<T[]>;
-  create(data: Omit<T, "id">): Promise<T>;
+  create<Entity extends DeepPartial<T>>(data: Entity): Promise<T>;
   update(id: string, data: Partial<Omit<T, "id">>): Promise<T>;
   delete(id: string): Promise<boolean>;
 }
 
 export class CrudRepository<T> implements ICrudRepository<T> {
-  entityName: string;
+  repository: Repository<T>;
 
-  constructor(e: string) {
-    this.entityName = e;
+  constructor(model: EntityTarget<T>) {
+    this.repository = AppDataSource.getRepository(model);
   }
 
   async get(filter?: Partial<T>): Promise<T[]> {
-    const response = await jsonServer.get<T[]>(`/${this.entityName}`, {
-      params: filter,
-    });
-    return response.data;
+    return this.repository.find(filter);
   }
 
-  async create(data: Omit<T, "id">): Promise<T> {
-    const response = await jsonServer.post<T>(`/${this.entityName}`, data);
-    return response.data;
+  create<Entity extends DeepPartial<T>>(data: Entity): Promise<T> {
+    return this.repository.save(data);
   }
 
   async update(id: string, entity: Partial<Omit<T, "id">>): Promise<T> {
-    const responseGet = await jsonServer.get<T[]>(`/${this.entityName}`, {
-      params: { id },
-    });
-    const [completeEntity] = responseGet.data;
-    const updated: T = { ...completeEntity, ...entity };
+    const data = await this.repository.findOneBy({
+      id,
+    } as any);
 
-    const response = await jsonServer.put<T>(
-      `/${this.entityName}/${id}`,
-      updated
-    );
-    return response.data;
+    if (!data) throw new Error("Entity not found");
+
+    const updatedData = { ...data, ...entity };
+    return await this.repository.save(updatedData);
   }
 
   async delete(id: string): Promise<boolean> {
-    await jsonServer.delete(`/${this.entityName}/${id}`);
+    const entity = await this.repository.findOneBy({ id } as any);
+    if (!entity) return false;
+
+    await this.repository.delete(id);
     return true;
   }
 }

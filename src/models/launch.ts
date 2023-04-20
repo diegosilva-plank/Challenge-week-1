@@ -13,7 +13,10 @@ export class Launch {
   @Column()
   date: string;
 
-  @ManyToOne(() => Rocket, (rocket) => rocket.launches)
+  @Column()
+  success: boolean;
+
+  @ManyToOne(() => Rocket, (rocket) => rocket.launches, { nullable: false })
   rocket: Rocket;
 
   @ManyToOne(() => Crew, (crew) => crew.launches)
