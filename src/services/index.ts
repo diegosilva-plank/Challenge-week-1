@@ -1,12 +1,15 @@
-import { Rocket } from "../entities/Rocket";
+import { Rocket } from "../models/rocket";
 import * as repositories from "../repositories";
-import { CrewService } from "./crewService";
-import { CrewmanService } from "./crewmanService";
+import { CrewManService } from "./crewManService";
+import { CrewService } from "./crewServices";
 import { CrudService } from "./genericService";
 import { LaunchService } from "./launchServices";
 
-
-export const rocketService = new CrudService<Rocket>(repositories.rocketRepository);
+export const rocketService = new CrudService<Rocket>(
+  repositories.rocketRepository
+);
 export const launchService = new LaunchService(repositories.launchRepository);
-export const crewService= new CrewService(repositories.crewRepository);
-export const crewManService = new CrewmanService(repositories.crewManRepository);
+export const crewService = new CrewService(repositories.crewRepository);
+export const crewManService = new CrewManService(
+  repositories.crewManRepository
+);
