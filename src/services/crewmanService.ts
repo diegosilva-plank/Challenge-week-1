@@ -1,8 +1,10 @@
-import { Crewman } from "../entities/Crewman";
+import { CrewMan } from "../models/crewMan";
 import { CrudService } from "./genericService";
 
-export class CrewmanService extends CrudService<Crewman> {
-    async get(filter?: Partial<Crewman>): Promise<Crewman[]> {
-     return await this.repository.get({ ...filter, relations: ['crews'] })
-    }
+export class CrewManService extends CrudService<CrewMan> {
+  async get(): Promise<CrewMan[]> {
+    return await this.repository.get({
+      relations: ["crews"],
+    } as any);
+  }
 }
