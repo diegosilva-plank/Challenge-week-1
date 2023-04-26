@@ -1,14 +1,10 @@
-import { Crew } from "../entities/Crew";
-import { Crewman } from "../entities/Crewman";
 import { CrudRepository } from "../repositories/genericRepository";
 
 export class CrudService<T> {
-
-  protected repository
+  protected repository: CrudRepository<T>;
 
   constructor(repository: CrudRepository<T>) {
-    this.repository = repository
-
+    this.repository = repository;
   }
 
   async get(filter?: Partial<T>): Promise<T[]> {
@@ -21,12 +17,12 @@ export class CrudService<T> {
     return entity;
   }
 
-  async create (payload: Omit<T, "id">): Promise<T> {
+  async create(payload: Omit<T, "id">): Promise<T> {
     const entity = await this.repository.create(payload);
     return entity;
   }
 
-  async update (id: string, payload: Partial<Omit<T, "id">>): Promise<T> {
+  async update(id: string, payload: Partial<Omit<T, "id">>): Promise<T> {
     const entity = await this.repository.update(id, payload);
     return entity;
   }
