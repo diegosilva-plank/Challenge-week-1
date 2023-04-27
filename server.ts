@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "dotenv/config";
 import * as Sentry from "@sentry/node";
 import express from "express";
 import { router } from "./src/routes";
