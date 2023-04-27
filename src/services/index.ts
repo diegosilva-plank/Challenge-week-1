@@ -1,6 +1,6 @@
 import { Rocket } from "../models/rocket";
 import * as repositories from "../repositories";
-import { CrewManService } from "./crewManService";
+import { CrewManService } from "./crewmanService";
 import { CrewService } from "./crewServices";
 import { CrudService } from "./genericService";
 import { LaunchService } from "./launchServices";
